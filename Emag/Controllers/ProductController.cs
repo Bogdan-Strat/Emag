@@ -15,13 +15,13 @@ namespace Emag.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("/all")]
         public async Task<IActionResult> GetAllProducts()
         {
             return Ok(await _service.GetAllProducts());
         }
 
-        [HttpPost]
+        [HttpPost("/add")]
         public async Task<IActionResult> AddProduct([FromBody] AddProductDTO productDTO)
         {
             await _service.AddProduct(productDTO);
