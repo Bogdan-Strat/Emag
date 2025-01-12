@@ -1,11 +1,31 @@
+using CartsService.Consumers;
 using CartsService.Data;
 using CartsService.Services;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumersFromNamespaceContaining<ProductCreatedConsumer>();
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("cart", false));
+
+    x.UsingRabbitMq((context, configuration) =>
+    {
+        configuration.ReceiveEndpoint("cart-product-created", e =>
+        {
+            e.UseMessageRetry(r => r.Interval(5, 5));
+
+            e.ConfigureConsumer<ProductCreatedConsumer>(context);
+        });
+
+        configuration.ConfigureEndpoints(context);
+    });
+});
 
 builder.Services.AddScoped<CartService>();
 

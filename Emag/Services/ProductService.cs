@@ -1,6 +1,8 @@
-﻿using Emag.Data;
+﻿using Contracts;
+using Emag.Data;
 using Emag.DTOs;
 using Emag.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Emag.Services
@@ -8,9 +10,11 @@ namespace Emag.Services
     public class ProductService
     {
         private readonly ProductDbContext _context;
-        public ProductService(ProductDbContext context)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public ProductService(ProductDbContext context, IPublishEndpoint publishEndpoint)
         {
             _context = context;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -28,6 +32,18 @@ namespace Emag.Services
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            var productCreated = new ProductCreated()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                CategoryId = (int)product.Category,
+            };
+
+            await _publishEndpoint.Publish(productCreated);
         }
     }
 }

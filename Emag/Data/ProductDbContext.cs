@@ -1,4 +1,5 @@
 ﻿using Emag.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Emag.Data
@@ -10,5 +11,14 @@ namespace Emag.Data
         }
 
         public DbSet<Product> Products { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    modelBuilder.AddInboxStateEntity();
+        //    modelBuilder.AddOutboxMessageEntity();
+        //    modelBuilder.AddOutboxStateEntity();
+        //}
     }
 }

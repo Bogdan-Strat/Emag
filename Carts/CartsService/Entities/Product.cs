@@ -4,12 +4,9 @@ using MongoDB.Entities;
 
 namespace CartsService.Entities
 {
-    public class Cart : Entity
+    public class Product : Entity
     {
         [BsonRepresentation(BsonType.String)]
         public Guid ProductId { get; set; }
-        public int ProductQuantity { get; set; }
-
-        public virtual Product Product { get; set; } = null!;
     }
 }
