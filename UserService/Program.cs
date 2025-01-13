@@ -1,44 +1,24 @@
-using Contracts;
-using Emag.Data;
-using Emag.ExtensionMethods;
-using Emag.Services;
-using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using UserService.Data;
+using UserService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<ProductDbContext>(opt =>
+builder.Services.AddDbContext<UserDbContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddMassTransit(x =>
-{
-    //x.AddEntityFrameworkOutbox<ProductDbContext>(o =>
-    //{
-    //    o.QueryDelay = TimeSpan.FromSeconds(10);
-
-    //    o.UsePostgres();
-    //    o.UseBusOutbox();
-    //});
-
-    x.UsingRabbitMq((context, configuration) =>
-    {
-        configuration.ConfigureEndpoints(context);
-    });
-});
-
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserAccountService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -70,8 +50,6 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
-builder.Services.AddCurrentUser();
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,6 +74,7 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -104,7 +83,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -114,7 +92,7 @@ try
 {
     DbInitializer.InitDb(app);
 }
-catch( Exception e)
+catch (Exception e)
 {
     Console.WriteLine(e);
 }
