@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CartsService.Controllers
 {
     [ApiController]
-    [Route("/cart")]
+    [Route("/carts")]
     public class CartController : ControllerBase
     {
         private readonly CartService _service;
@@ -16,13 +16,13 @@ namespace CartsService.Controllers
             _service = service;
         }
 
-        [HttpGet("/all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllCarts()
         {
             return Ok(await _service.GetAllCarts());
         }
 
-        [HttpPost("/add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddCart(AddCartDTO cart)
         {
             await _service.AddCart(cart);

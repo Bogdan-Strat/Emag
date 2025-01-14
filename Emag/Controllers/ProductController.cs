@@ -19,13 +19,13 @@ namespace Emag.Controllers
             _currentUserDTO = user;
         }
 
-        [HttpGet("/all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllProducts()
         {
             return Ok(await _service.GetAllProducts());
         }
 
-        [HttpPost("/add")]
+        [HttpPost("add")]
         [Authorize]
         public async Task<IActionResult> AddProduct([FromBody] AddProductDTO productDTO)
         {
