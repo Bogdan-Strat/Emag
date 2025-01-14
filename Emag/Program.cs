@@ -34,6 +34,12 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, configuration) =>
     {
+        configuration.Host(builder.Configuration["RabbitMq:Host"], "/", host =>
+        {
+            host.Username(builder.Configuration.GetValue("RabbitMq:Username", "guest"));
+            host.Password(builder.Configuration.GetValue("RabbitMq:Password", "guest"));
+        });
+
         configuration.ConfigureEndpoints(context);
     });
 });
@@ -86,10 +92,10 @@ builder.Services.AddAuthentication(options =>
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        //ValidAudience = configuration["JWT:ValidAudience"],
+        //ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
     };
 });

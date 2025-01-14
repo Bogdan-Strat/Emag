@@ -21,3 +21,61 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  product-svc:
+    image: bogdan243/product-svc:latest
+    build: 
+      context: .
+      dockerfile: Emag/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=products
+      - JWT__Secret=JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+    ports:
+      - 7001:80
+    depends_on:
+      - postgres
+      - rabbitmq
+  cart-svc:
+    image: bogdan243/cart-svc:latest
+    build: 
+      context: .
+      dockerfile: Carts/CartsService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__MongoDbConnection=mongodb://root:mongopw@mongodb
+      - JWT__Secret=JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+    ports:
+      - 7002:80
+    depends_on:
+      - mongodb
+      - rabbitmq
+  user-svc:
+    image: bogdan243/user-svc:latest
+    build: 
+      context: .
+      dockerfile: UserService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=users
+      - JWT__Secret=JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+    ports:
+      - 7003:80
+    depends_on:
+      - postgres
+  gateway-svc:
+    image: bogdan243/gateway-svc:latest
+    build: 
+      context: .
+      dockerfile: GatewayService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - JWT__Secret=JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+    ports:
+      - 6002:80
+
