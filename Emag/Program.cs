@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
+using Polly;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -116,13 +118,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-try
-{
-    DbInitializer.InitDb(app);
-}
-catch( Exception e)
-{
-    Console.WriteLine(e);
-}
+var retryPolicy = Policy
+    .Handle<NpgsqlException>()
+    .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(5));
+
+retryPolicy.ExecuteAndCapture(() => DbInitializer.InitDb(app));
 
 app.Run();
