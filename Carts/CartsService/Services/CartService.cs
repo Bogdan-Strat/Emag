@@ -13,12 +13,15 @@ namespace CartsService.Services
             _currentUser = currentUser;
         }
 
-        public async Task<List<Cart>> GetAllCarts()
+        public async Task<List<Guid>> GetAllCarts()
         {
             var carts= await DB.Find<Cart>()
+                .Match(c => c.UserId == _currentUser.Id)
                 .ExecuteAsync();
 
-            return carts;
+            return carts
+                .Select(c => c.ProductId)
+                .ToList();
         }
 
         public async Task AddProductToCart(AddCartDTO cart)

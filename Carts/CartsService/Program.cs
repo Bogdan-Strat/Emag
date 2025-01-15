@@ -98,6 +98,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", p =>
+{
+    p.AllowAnyOrigin()
+     .AllowAnyHeader()
+     .AllowAnyMethod();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

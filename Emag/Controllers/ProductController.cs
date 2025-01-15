@@ -20,6 +20,7 @@ namespace Emag.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize]
         public async Task<IActionResult> GetAllProducts()
         {
             return Ok(await _service.GetAllProducts());
@@ -32,6 +33,13 @@ namespace Emag.Controllers
             await _service.AddProduct(productDTO);
 
             return Ok();
+        }
+
+        [HttpPost("getCart")]
+        [Authorize]
+        public async Task<IActionResult> GetProductsByIds([FromBody] List<Guid> productsIds)
+        {
+            return Ok(await _service.GetProductsByIds(productsIds));
         }
     }
 }

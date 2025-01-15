@@ -16,7 +16,7 @@ namespace UserService.DTOs
             {
                 Id = Guid.NewGuid(),
                 Email = dto.Email,
-                Role = (Role)dto.RoleId,
+                Role = Role.User,
                 Password = HashPassword(dto.Password)
             };
         }
