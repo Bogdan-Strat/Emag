@@ -8,7 +8,8 @@ namespace CartsService.Entities
     {
         [BsonRepresentation(BsonType.String)]
         public Guid ProductId { get; set; }
-        public int ProductQuantity { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid UserId { get; set; }
 
         public virtual Product Product { get; set; } = null!;
     }

@@ -7,12 +7,12 @@ namespace CartsService.DTOs
         public Guid ProductId { get; set; }
         public int ProductQuantity { get; set; }
 
-        public static Cart FromDTO(AddCartDTO dto)
+        public static Cart FromDTO(AddCartDTO dto, Guid userId)
         {
             return new Cart()
             {
                 ProductId = dto.ProductId,
-                ProductQuantity = dto.ProductQuantity,
+                UserId = userId,
             };
         }
     }

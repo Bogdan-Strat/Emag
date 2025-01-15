@@ -1,6 +1,7 @@
 ﻿using CartsService.DTOs;
 using CartsService.Entities;
 using CartsService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartsService.Controllers
@@ -17,15 +18,25 @@ namespace CartsService.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize]
         public async Task<IActionResult> GetAllCarts()
         {
             return Ok(await _service.GetAllCarts());
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCart(AddCartDTO cart)
+        [Authorize]
+        public async Task<IActionResult> AddProductToCart(AddCartDTO cart)
         {
-            await _service.AddCart(cart);
+            await _service.AddProductToCart(cart);
+            return Ok();
+        }
+
+        [HttpPost("remove")]
+        [Authorize]
+        public async Task<IActionResult> RemoveProductFromCart(AddCartDTO cart)
+        {
+            await _service.RemoveProductFromCart(cart);
             return Ok();
         }
     }

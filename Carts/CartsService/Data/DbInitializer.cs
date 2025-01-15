@@ -43,20 +43,6 @@ namespace CartsService.Data
 
                 await DB.InsertAsync(products);
             }
-
-            if (cartsNo > 0)
-                return;
-
-            var carts = new List<Cart>()
-            {
-                new()
-                {
-                    ProductId = Guid.Parse("0baeff6f-a36d-4699-913b-e5391bcf54ab"),
-                    ProductQuantity = 1,
-                }
-            };
-
-            await DB.InsertAsync(carts);
         }
     }
 }
