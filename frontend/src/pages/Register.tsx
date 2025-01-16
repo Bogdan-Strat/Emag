@@ -29,12 +29,16 @@ const Register = () => {
 
   return (
     <Flex
-      marginTop="100px"
-      width="100vw"
-      alignItems="center"
-      justifyContent="center"
-      gap="3"
-      direction="column"
+    marginTop="145px"
+    width="450px"
+    align="center"
+    justify="center"
+    gap="3"
+    direction="column"
+    shadow="lg"
+    rounded="lg"
+    mx="auto"
+    p="10"
     >
       <Heading>Welcome to Shopify!</Heading>
       <Text width="400px" textAlign="center">

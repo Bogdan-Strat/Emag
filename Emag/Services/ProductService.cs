@@ -19,13 +19,15 @@ namespace Emag.Services
             _currentUser = currentUser;
         }
 
-        public async Task<List<Product>> GetAllProducts()
+        public async Task<List<GetProductDTO>> GetAllProducts()
         {
             var products = await _context.Products
                 .OrderBy(p => p.Name)
                 .ToListAsync();
 
-            return products;
+            return products
+                .Select(p => GetProductDTO.FromEntity(p))
+                .ToList();
         }
 
         public async Task AddProduct(AddProductDTO productDTO)
@@ -50,8 +52,12 @@ namespace Emag.Services
             await _publishEndpoint.Publish(productCreated);
         }
 
-        public async Task<List<ProductForCartDTO>> GetProductsByIds(List<Guid> productsIds)
+        public async Task<List<ProductForCartDTO>> GetProductsByIds(List<GetProductsByIdDTO> dto)
         {
+            var productsIds = dto
+                .Select(d => d.Id)
+                .ToList();
+
             var products = await _context.Products
                 .Where(p => productsIds.Contains(p.Id))
                 .Select(p => ProductForCartDTO.FromEntity(p))

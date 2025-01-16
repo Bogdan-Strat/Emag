@@ -28,17 +28,26 @@ const Login = () => {
 
     if (data === 0) return;
 
-    dispatch(setUserState(data.token));
+    const state = {
+        token: data.token,
+        roleId: data.roleId
+    }
+    dispatch(setUserState(state));
+    navigate("/Home")
   };
 
   return (
     <Flex
-      marginTop="100px"
-      width="100vw"
-      alignItems="center"
-      justifyContent="center"
+      marginTop="145px"
+      width="450px"
+      align="center"
+      justify="center"
       gap="3"
       direction="column"
+      shadow="lg"
+      rounded="lg"
+      mx="auto"
+      p="10"
     >
       <Heading>Welcome back!</Heading>
       <Text width="400px" textAlign="center">

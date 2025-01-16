@@ -13,14 +13,19 @@ namespace CartsService.Services
             _currentUser = currentUser;
         }
 
-        public async Task<List<Guid>> GetAllCarts()
+        public async Task<List<GetAllCartDTO>> GetAllCarts()
         {
             var carts= await DB.Find<Cart>()
                 .Match(c => c.UserId == _currentUser.Id)
                 .ExecuteAsync();
 
             return carts
-                .Select(c => c.ProductId)
+                .GroupBy(c => c.ProductId)
+                .Select(c => new GetAllCartDTO()
+                {
+                    ProductId = c.Key,
+                    Quantity = c.Count()
+                })
                 .ToList();
         }
 

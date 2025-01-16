@@ -2,17 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface IUser {
   token: string | null;
+  roleId: number | null;
 }
 
 const initialState: IUser = {
-  token: null, // Initially no user data
+  token: null,
+  roleId: null
 };
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
     setUserState(state, action) {
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.roleId = parseInt(action.payload.roleId)
     },
     clearUser(state) {
       state.token = null;

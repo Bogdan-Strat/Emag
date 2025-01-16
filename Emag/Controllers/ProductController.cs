@@ -37,7 +37,7 @@ namespace Emag.Controllers
 
         [HttpPost("getCart")]
         [Authorize]
-        public async Task<IActionResult> GetProductsByIds([FromBody] List<Guid> productsIds)
+        public async Task<IActionResult> GetProductsByIds([FromBody] List<GetProductsByIdDTO> productsIds)
         {
             return Ok(await _service.GetProductsByIds(productsIds));
         }

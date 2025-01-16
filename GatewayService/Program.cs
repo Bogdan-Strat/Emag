@@ -40,7 +40,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", p =>
 var app = builder.Build();
 
 app.MapReverseProxy();
-
+app.UseCors("corsapp");
 app.UseAuthentication();
 app.UseAuthorization();
 

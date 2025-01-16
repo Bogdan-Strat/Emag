@@ -20,19 +20,11 @@ namespace Emag.Data
             if (context.Products.Any())
                 return;
 
-            var id1 = Guid.NewGuid();
-            var id2 = Guid.NewGuid();
-            var id3 = Guid.NewGuid();
-            var id4 = Guid.NewGuid();
-            var id5 = Guid.NewGuid();
-            var id6 = Guid.NewGuid();
-            var id7 = Guid.NewGuid();
-
             var products = new List<Product>()
             {
                 new()
                 {
-                    Id = id1,
+                    Id = Guid.Parse("9d42e31d-7399-494e-9cda-deef0f668498"),
                     Name = "Iphone 16",
                     Description = "Latest iphone model. 256 GB memory and 32 GB RAM", 
                     Price = 1500,
@@ -41,7 +33,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id2,
+                    Id = Guid.Parse("bae4491d-9c92-40ed-bc29-ea2ada2a9da0"),
                     Name = "Dell Laptop",
                     Description = "15 inches, 2GB dedicated memory, 16GB of RAM, 1 TB memory, I7 processor",
                     Price = 1000,
@@ -50,7 +42,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id3,
+                    Id = Guid.Parse("11a683f8-117c-4099-87a4-d1ae1b22ae59"),
                     Name = "Polo T-Shirt",
                     Description = "All the sizes, original not fake",
                     Price = 100,
@@ -59,7 +51,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id4,
+                    Id = Guid.Parse("986a7789-9f2a-4ab4-aafa-30b640593e87"),
                     Name = "Kinder bueno",
                     Description = "The classic kinder bueno, but with white chocolate",
                     Price = 1.02,
@@ -68,7 +60,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id5,
+                    Id = Guid.Parse("81d797f9-7808-405d-84ed-eec479ade424"),
                     Name = "Whirpool washing machine",
                     Description = "2022 model, 5 years warranty",
                     Price = 524,
@@ -77,7 +69,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id6,
+                    Id = Guid.Parse("d3bb6b3e-1c1f-4bfe-8477-e330eb6bc0c6"),
                     Name = "Samsung Galaxy Z-Flip",
                     Description = "The only smart phone which can fold. More resistant, better camera",
                     Price = 1481.35,
@@ -86,7 +78,7 @@ namespace Emag.Data
                 },
                 new()
                 {
-                    Id = id7,
+                    Id = Guid.Parse("632c463f-650d-4807-ac52-5dd41adbe002"),
                     Name = "Curved monitor OLED 4K",
                     Description = "Latest generation 96 inch insane graphics",
                     Price = 999.99,
