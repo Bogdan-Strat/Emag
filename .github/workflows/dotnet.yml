@@ -22,5 +22,16 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore Emag
-    - name: Build
+    - name: Build Products
       run: dotnet build Emag
+    - name: Build Order
+      run: dotnet build OrderService
+    - name: Build User
+      run: dotnet build UserService
+    - name: Build Gateway
+      run: dotnet build GatewayService
+    - name: Build Cart
+      run: |
+        cd Carts
+        dotnet build CartService
+      
