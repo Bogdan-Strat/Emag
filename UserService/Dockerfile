@@ -9,6 +9,7 @@ COPY Carts/CartsService/CartsService.csproj Carts/CartsService/CartsService.cspr
 COPY GatewayService/GatewayService.csproj GatewayService/GatewayService.csproj
 COPY Contracts/Contracts.csproj Contracts/Contracts.csproj
 COPY UserService/UserService.csproj UserService/UserService.csproj
+COPY OrderService/OrderService.csproj OrderService/OrderService.csproj
 
 # Restore package deps
 RUN dotnet restore Emag.sln

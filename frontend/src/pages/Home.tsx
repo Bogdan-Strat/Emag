@@ -25,9 +25,7 @@ const Home = () => {
       try {
         const data = await get(GATEWAY_PORT, "products/all", token);
         if (Array.isArray(data)) {
-          setProducts(data); // Only set products if the response is an array
-        } else {
-          console.error("Unexpected data format:", data);
+          setProducts(data);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -71,7 +69,7 @@ const Home = () => {
                   </Flex>
                   <Flex align="center" gap="2">
                     <span class="material-symbols-outlined">payments</span>
-                    <Text>{p.price} RON</Text>
+                    <Text>{p.price} EUR</Text>
                   </Flex>
                 </Flex>
                 <Flex direction="column">

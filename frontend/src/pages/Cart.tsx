@@ -6,6 +6,7 @@ import { get, post } from "../utils/httpRequests.ts";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { Button } from "../components/ui/button";
 import { GATEWAY_PORT } from "../environment-variables.ts";
+import { useNavigate } from "react-router-dom";
 
 interface ICart {
   productId: string;
@@ -19,6 +20,7 @@ interface IProduct {
 const Cart = () => {
   const { toggleColorMode } = useColorMode();
   const token = useSelector((state): any => state.user.token);
+  const navigate = useNavigate();
   const [carts, setCarts] = useState<ICart[]>([]);
   const [initialCarts, setInitialCarts] = useState<ICart[]>([]);
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -71,7 +73,7 @@ const Cart = () => {
 
   const isQuantityEmpty = (id) => {
     return carts.find((c) => c.productId === id).quantity === 0;
-  }
+  };
 
   const removeProductFromCart = async (id) => {
     const model = {
@@ -92,8 +94,8 @@ const Cart = () => {
   };
 
   const addOrSubside = async (id, sum) => {
-    if(getQuantity(id) === 0) {
-        return;
+    if (getQuantity(id) === 0) {
+      return;
     }
     if (sum > 0) {
       await addProductToCart(id);
@@ -108,48 +110,74 @@ const Cart = () => {
       )
     );
   };
+
+  const addOrder = async () => {
+    let model: { productId: string; price: number; quantity: number }[] = [];
+
+    for (let i = 0; i < products.length; i++) {
+      model.push({
+        productId: products[i].id,
+        price: products[i].price,
+        quantity: getQuantity(products[i].id),
+      });
+    }
+
+    const resp = await post(GATEWAY_PORT, "orders/add", model, token, false);
+
+    if (resp !== 0) navigate("/home");
+  };
   return (
     <React.Fragment>
       <NavBar />
       <Flex justify="center" mt="10">
         <Flex width="60%" direction="column" gap="5">
-          {products?.map((p) => getQuantity(p.id) === 0 
-          ? (<></>)
-          : (
-             <Flex key={p.id} p="5" shadow="lg" rounded="2xl" direction="column">
-              <Flex justify="space-between" direction="row">
-                <Flex direction="column">
-                  <Heading>{p.name}</Heading>
-                  <Flex align="center" gap="2" mt="2">
-                    <span class="material-symbols-outlined">payments</span>
-                    <Text>{p.price} RON</Text>
+          {products?.map((p) =>
+            getQuantity(p.id) === 0 ? (
+              <></>
+            ) : (
+              <Flex
+                key={p.id}
+                p="5"
+                shadow="lg"
+                rounded="2xl"
+                direction="column"
+              >
+                <Flex justify="space-between" direction="row">
+                  <Flex direction="column">
+                    <Heading>{p.name}</Heading>
+                    <Flex align="center" gap="2" mt="2">
+                      <span class="material-symbols-outlined">payments</span>
+                      <Text>{p.price} EUR</Text>
+                    </Flex>
+                  </Flex>
+                  <Flex align="center" gap="3">
+                    <Button
+                      colorPalette="gary"
+                      variant="outline"
+                      size="xs"
+                      rounded="full"
+                      onClick={() => addOrSubside(p.id, -1)}
+                    >
+                      -
+                    </Button>
+                    <Text>{getQuantity(p.id)}</Text>
+                    <Button
+                      colorPalette="gary"
+                      variant="outline"
+                      size="xs"
+                      rounded="full"
+                      onClick={() => addOrSubside(p.id, 1)}
+                    >
+                      +
+                    </Button>
                   </Flex>
                 </Flex>
-                <Flex align="center" gap="3">
-                  <Button
-                    colorPalette="gary"
-                    variant="outline"
-                    size="xs"
-                    rounded="full"
-                    onClick={() => addOrSubside(p.id, -1)}
-                  >
-                    -
-                  </Button>
-                  <Text>{getQuantity(p.id)}</Text>
-                  <Button
-                    colorPalette="gary"
-                    variant="outline"
-                    size="xs"
-                    rounded="full"
-                    onClick={() => addOrSubside(p.id, 1)}
-                  >
-                    +
-                  </Button>
-                </Flex>
               </Flex>
-            </Flex>
-          ))}
-          <Button colorPalette="blue" rounded="2xl">Order</Button>
+            )
+          )}
+          <Button colorPalette="blue" rounded="2xl" onClick={() => addOrder()}>
+            Order
+          </Button>
         </Flex>
       </Flex>
     </React.Fragment>

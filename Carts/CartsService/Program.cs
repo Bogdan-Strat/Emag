@@ -21,6 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumersFromNamespaceContaining<ProductCreatedConsumer>();
+    x.AddConsumersFromNamespaceContaining<OrderCreatedConsumer>();
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("cart", false));
 
     x.UsingRabbitMq((context, configuration) =>
@@ -36,6 +37,13 @@ builder.Services.AddMassTransit(x =>
             e.UseMessageRetry(r => r.Interval(5, 5));
 
             e.ConfigureConsumer<ProductCreatedConsumer>(context);
+        });
+
+        configuration.ReceiveEndpoint("cart-order-created", e =>
+        {
+            e.UseMessageRetry(r => r.Interval(5, 5));
+
+            e.ConfigureConsumer<OrderCreatedConsumer>(context);
         });
 
         configuration.ConfigureEndpoints(context);

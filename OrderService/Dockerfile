@@ -15,12 +15,13 @@ COPY OrderService/OrderService.csproj OrderService/OrderService.csproj
 RUN dotnet restore Emag.sln
 
 # Copy the app folders
-COPY GatewayService GatewayService
-WORKDIR /app/GatewayService
+COPY OrderService OrderService
+COPY Contracts Contracts
+WORKDIR /app/OrderService
 RUN dotnet publish -c Release -o /app/out
 
 #Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "GatewayService.dll"]
+ENTRYPOINT ["dotnet", "OrderService.dll"]
