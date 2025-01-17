@@ -28,3 +28,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
     - run: docker compose build
     - run: docker compose up -d
+    - run: docker compose push
