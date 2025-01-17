@@ -16,9 +16,9 @@ spec:
         image: rabbitmq:3-management
         env:
          - name: RABBITMQ_DEFAULT_USER
-           value: rabbit
+           value: guest
          - name: RABBITMQ_DEFAULT_PASS
-           value: rabbitpw
+           value: guest
         ports:
         - containerPort: 15672
           name: rbmq-mgmt-port

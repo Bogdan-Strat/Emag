@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-svc-config
+data:
+  ASPNETCORE_URLS: http://+:80
+  RabbitMq__Host: rabbit-clusterip
+  RabbitMq__Uername: guest
+  RabbitMq__Password: guest
+  ConnectionStrings__DefaultConnection: Server=postgres-clusterip:5432;User Id=postgres;Password=postgrespw;Database=products
+  JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart-svc-config
+data:
+  ASPNETCORE_URLS: http://+:80
+  RabbitMq__Host: rabbit-clusterip
+  RabbitMq__Uername: guest
+  RabbitMq__Password: guest
+  ConnectionStrings__DefaultConnection: mongodb://root:mongopw@mongo-clusterip
+  JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-svc-config
+data:
+  ASPNETCORE_URLS: http://+:80
+  ConnectionStrings__DefaultConnection: Server=postgres-clusterip:5432;User Id=postgres;Password=postgrespw;Database=users
+  JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-svc-config
+data:
+  ASPNETCORE_URLS: http://+:80
+  RabbitMq__Host: rabbit-clusterip
+  RabbitMq__Uername: guest
+  RabbitMq__Password: guest
+  ConnectionStrings__DefaultConnection: Server=postgres-clusterip:5432;User Id=postgres;Password=postgrespw;Database=orders
+  JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-svc-config
+data:
+  ASPNETCORE_URLS: http://+:80
+  JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
