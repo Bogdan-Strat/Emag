@@ -19,7 +19,7 @@ data:
   RabbitMq__Host: rabbit-clusterip
   RabbitMq__Uername: guest
   RabbitMq__Password: guest
-  ConnectionStrings__DefaultConnection: mongodb://root:mongopw@mongo-clusterip
+  ConnectionStrings__MongoDbConnection: mongodb://root:mongopw@mongo-clusterip
   JWT__Secret: JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr
 ---
 apiVersion: v1
