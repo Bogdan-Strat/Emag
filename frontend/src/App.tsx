@@ -6,6 +6,7 @@ import Login from "./pages/Login.tsx";
 import Home from "./pages/Home.tsx";
 import Cart from "./pages/Cart.tsx";
 import History1 from "./pages/History.tsx";
+import Admin from "./pages/Admin.tsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/history" element={<History1  />} />
+        <Route path="/admin" element={<Admin  />} />
       </Routes>
     </BrowserRouter>
   );
