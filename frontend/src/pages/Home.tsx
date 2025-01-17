@@ -69,7 +69,7 @@ const Home = () => {
                   </Flex>
                   <Flex align="center" gap="2">
                     <span class="material-symbols-outlined">payments</span>
-                    <Text>{p.price} EUR</Text>
+                    <Text>{p.price} RON</Text>
                   </Flex>
                 </Flex>
                 <Flex direction="column">
